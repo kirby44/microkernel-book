@@ -127,6 +127,7 @@ void main(void) {
     // ここでちょっと待つ。
     sys_time(100);
     ipc_recv(IPC_ANY, &m);
+    printf("%d", m.type);
     ASSERT(m.type == NOTIFY_TIMER_MSG);
 
     printf("\nWelcome to HinaOS!\n\n");

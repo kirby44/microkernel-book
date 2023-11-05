@@ -55,6 +55,8 @@ rpc async_recv() -> (any);
 
 // メッセージパッシングのテスト用。同じ値を返す。
 rpc ping(value: int) -> (value: int);
+// peng sandbox
+rpc peng(value: int) -> (value: int);
 // タスクの作成
 rpc spawn_task(name: cstr[32]) -> (task: task);
 // タスクの終了

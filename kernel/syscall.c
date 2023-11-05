@@ -301,6 +301,11 @@ static int sys_uptime(void) {
     return uptime_ticks / TICK_HZ;
 }
 
+// sandbox
+static int sys_timer_interrupt_count(void) {
+    return timer_interrupt_count;
+}
+
 // コンピューターの電源を切る。
 __noreturn static int sys_shutdown(void) {
     arch_shutdown();
@@ -358,6 +363,9 @@ long handle_syscall(long a0, long a1, long a2, long a3, long a4, long n) {
             break;
         case SYS_UPTIME:
             ret = sys_uptime();
+            break;
+        case SYS_TIMER_INTERRUPT_COUNT:
+            ret = sys_timer_interrupt_count();
             break;
         case SYS_SHUTDOWN:
             ret = sys_shutdown();

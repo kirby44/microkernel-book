@@ -86,6 +86,11 @@ int sys_uptime(void) {
     return arch_syscall(0, 0, 0, 0, 0, SYS_UPTIME);
 }
 
+// sandbox
+int sys_timer_interrupt_count(void) {
+    return arch_syscall(0, 0, 0, 0, 0, SYS_TIMER_INTERRUPT_COUNT);
+}
+
 // shutdownシステムコール: システムのシャットダウン
 __noreturn void sys_shutdown(void) {
     arch_syscall(0, 0, 0, 0, 0, SYS_SHUTDOWN);

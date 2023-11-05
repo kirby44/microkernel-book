@@ -138,8 +138,31 @@ static void do_ping(struct args *args) {
     ASSERT(m.ping_reply.value == 42);
 }
 
+static void do_peng(struct args *args) {
+    if (args->argc != 2) {
+        WARN("Usage: peng <VALUE>");
+        return;
+    }
+
+    task_t peng_server = ipc_lookup("peng");
+
+    // pengサーバにメッセージを送信する
+    struct message m;
+    m.type = PENG_MSG;
+    m.peng.value = atoi(args->argv[1]);
+    ASSERT_OK(ipc_call(peng_server, &m));
+
+    // pongサーバからの応答が想定されたものか確認する
+    ASSERT(m.type == PENG_REPLY_MSG);
+    ASSERT(m.peng_reply.value == 42);
+}
+
 static void do_uptime(struct args *args) {
     printf("%d seconds\n", sys_uptime());
+}
+
+static void do_timerinterruptcount(struct args *args) {
+    printf("%d times interruption has occured\n", sys_timer_interrupt_count());
 }
 
 __noreturn static void do_shutdown(struct args *args) {
@@ -160,7 +183,9 @@ static struct command commands[] = {
     {.name = "start", .run = do_start, .help = "Launch a task from bootfs"},
     {.name = "sleep", .run = do_sleep, .help = "Pause for a while"},
     {.name = "ping", .run = do_ping, .help = "Send a ping to pong server"},
+    {.name = "peng", .run = do_peng, .help = "Send a peng to peng server"},
     {.name = "uptime", .run = do_uptime, .help = "Show seconds since boot"},
+    {.name = "timerinterruptcount", .run = do_timerinterruptcount, .help = "Show timer interrupt count"},
     {.name = "shutdown", .run = do_shutdown, .help = "Shut down the system"},
     {.name = NULL},
 };
